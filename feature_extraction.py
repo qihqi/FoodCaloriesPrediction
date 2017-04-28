@@ -5,10 +5,10 @@ import sys
 import os
 import torch
 import numpy as np
-from torchvision.models import resnet152, alexnet
+from torchvision.models import resnet152, alexnet, resnet34
 from util.utils import load_data_from_file
 
-resnet = resnet152(pretrained=True)
+resnet = resnet34(pretrained=True)
 # resnet = resnet.cuda()
 new_classifier = torch.nn.Sequential(*list(resnet.children())[:-1]).cuda()
 
