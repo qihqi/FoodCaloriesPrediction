@@ -16,7 +16,6 @@ def load_data_from_file(datafile, batch_size=32, target_shape=False):
 
     pathes = [(fname, float(label)) for fname, label in map(str.split,
         datafile.readlines())]
-    random.shuffle(pathes)
     current_batch = []
     current_label = []
     counter = 0
@@ -26,6 +25,8 @@ def load_data_from_file(datafile, batch_size=32, target_shape=False):
             continue
         img = scipy.misc.imread(fname)
         if target_shape:
+            if img.shape != target_shape:
+                img = scipy.misc.imresize(img, target_shape)
             if img.shape != target_shape:
                 continue
         img = img.reshape((1,) + img.shape)
@@ -45,13 +46,13 @@ def load_data_from_file(datafile, batch_size=32, target_shape=False):
 
 
 
-def load_data_from_folder(folder, batch_size=32):
+def load_data_from_folder(folder, batch_size=32, target_size=None):
     data = []
     for name in os.listdir(folder):
         path = os.path.join(folder, name)
         data.append(path + " 0")
-    content = '\n'.join(data)
-    return load_data_from_file(io.StringIO(data), batch_size)
+    content = '\n'.join(sorted(data))
+    return load_data_from_file(io.StringIO(content), batch_size, target_size)
 
 
 def load_mat_from_dir(folder):
