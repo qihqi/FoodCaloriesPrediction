@@ -9,7 +9,7 @@ from torchvision.models import resnet152, alexnet
 from util.utils import load_data_from_file
 
 resnet = resnet152(pretrained=True)
-resnet = resnet.cuda()
+# resnet = resnet.cuda()
 new_classifier = torch.nn.Sequential(*list(resnet.children())[:-1]).cuda()
 
 DIR = './data'
