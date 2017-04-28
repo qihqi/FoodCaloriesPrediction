@@ -1,9 +1,10 @@
+import random
 import io
 import scipy.misc
 import numpy as np
 
 
-def load_data_from_file(datafile, batch_size=32):
+def load_data_from_file(datafile, batch_size=32, target_shape=False):
     """
     :datafile contains image path and its label per line
     :batch_size
@@ -15,13 +16,15 @@ def load_data_from_file(datafile, batch_size=32):
 
     pathes = [(fname, float(label)) for fname, label in map(str.split,
         datafile.readlines())]
-
+    random.shuffle(pathes)
     current_batch = []
     current_label = []
     counter = 0
 
     for fname, calorie in pathes:
         img = scipy.misc.imread(fname)
+        if target_shape and img.shape != target_shape:
+            continue 
         img = img.reshape((1,) + img.shape)
         current_batch.append(img)
         current_label.append(calorie)
