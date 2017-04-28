@@ -1,4 +1,5 @@
 import random
+import os
 import io
 import scipy.misc
 import numpy as np
@@ -6,7 +7,6 @@ import numpy as np
 
 def load_data_from_file(datafile, batch_size=32, target_shape=False):
     """
-    :datafile contains image path and its label per line
     :batch_size
 
     yields
@@ -22,9 +22,12 @@ def load_data_from_file(datafile, batch_size=32, target_shape=False):
     counter = 0
 
     for fname, calorie in pathes:
+        if os.path.splitext(fname)[1] != '.jpg':
+            continue
         img = scipy.misc.imread(fname)
-        if target_shape and img.shape != target_shape:
-            continue 
+        if target_shape:
+            if img.shape != target_shape:
+                continue
         img = img.reshape((1,) + img.shape)
         current_batch.append(img)
         current_label.append(calorie)
@@ -51,3 +54,7 @@ def load_data_from_folder(folder, batch_size=32):
     return load_data_from_file(io.StringIO(data), batch_size)
 
 
+def load_mat_from_dir(folder):
+
+    for x in os.listdir(folder):
+        pass

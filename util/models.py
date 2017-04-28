@@ -4,6 +4,13 @@ from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 
+def two_layers(input_shape, classnum):
+    model = Sequential()
+    model.add(Dense(200, input_dim=input_shape, activation='relu'))
+    model.add(Dense(200, input_dim=input_shape, activation='relu'))
+    model.add(Dense(1, input_dim=input_shape))
+    return model
+
 
 def alexnet_like(input_shape, classnum, activation):
     model = Sequential()
